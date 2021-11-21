@@ -2,18 +2,30 @@
 const {
     GraphQLSchema,
     GraphQLObjectType,
-    GraphQLString
+    GraphQLString, GraphQLNonNull
 } = require('graphql');
+
+const MeType = require('./types/me');
 
 // The root query type is where in the data graph we can start asking questions
 const RootQueryType = new GraphQLObjectType({
-   name: 'RootQueryType',
-   fields: {
-       hello: {
-           type: GraphQLString,
-           resolve: () => 'world'
-       }
-   }
+    name: 'RootQueryType',
+    fields: {
+        me: {
+            type: MeType,
+            description: 'The current user identified by an api key',
+            args: {
+                key: {type: new GraphQLNonNull(GraphQLString)}
+            },
+            resolve: () => {
+                // Read user information from database
+                return {
+                    id: 42,
+                    email: 'fake@example.com'
+                };
+            }
+        }
+    }
 });
 
 const ncSchema = new GraphQLSchema({
