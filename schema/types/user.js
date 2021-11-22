@@ -4,7 +4,7 @@ const mdb = require('../../database/mdb');
 const pgdb = require('../../database/pgdb');
 
 module.exports = new GraphQLObjectType({
-    name: 'MeType',
+    name: 'UserType',
     fields: {
         id: { type: GraphQLID },
         firstName: { type: GraphQLString },
