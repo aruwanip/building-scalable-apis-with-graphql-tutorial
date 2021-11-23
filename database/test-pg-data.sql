@@ -1,3 +1,4 @@
+drop view if exists total_votes_by_name;
 drop table if exists votes;
 drop table if exists names;
 drop table if exists contests;
@@ -73,3 +74,9 @@ VALUES
 (3,FALSE,2),
 (4,TRUE,1),
 (4,TRUE,2);
+
+create view total_votes_by_name as
+select id as name_id,
+       (select count(up) from votes v where v.name_id = n.id and up = true) as up,
+       (select count(up) from votes v where v.name_id = n.id and up = false) as down
+from names n;

@@ -6,7 +6,7 @@ module.exports = (pgPool) => {
             return pgPool.query(`
                 select *
                 from users
-                where id = ANY($1)
+                where id = ANY ($1)
             `, [userIds]).then(res => {
                 return orderedFor(res.rows, userIds, 'id', true);
             });
@@ -15,7 +15,7 @@ module.exports = (pgPool) => {
             return pgPool.query(`
                 select *
                 from users
-                where api_key = ANY($1)
+                where api_key = ANY ($1)
             `, [apiKeys]).then(res => {
                 return orderedFor(res.rows, apiKeys, 'apiKey', true);
             });
@@ -24,7 +24,7 @@ module.exports = (pgPool) => {
             return pgPool.query(`
                 select *
                 from contests
-                where created_by = ANY($1)
+                where created_by = ANY ($1)
             `, [userIds]).then(res => {
                 return orderedFor(res.rows, userIds, 'createdBy', false);
             });
@@ -33,10 +33,19 @@ module.exports = (pgPool) => {
             return pgPool.query(`
                 select *
                 from names
-                where contest_id = ANY($1)
+                where contest_id = ANY ($1)
             `, [contestIds]).then(res => {
                 return orderedFor(res.rows, contestIds, 'contestId', false);
             });
+        },
+        getTotalVotesByNameIds(nameIds) {
+            return pgPool.query(`
+                select name_id, up, down
+                from total_votes_by_name
+                where name_id = ANY ($1)
+            `, [nameIds]).then(res => {
+                return orderedFor(res.rows, nameIds, 'nameId', true)
+            })
         }
     };
 };
