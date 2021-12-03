@@ -1,4 +1,5 @@
 const { GraphQLInputObjectType, GraphQLNonNull, GraphQLString } = require('graphql');
+
 const pgdb = require('../../database/pgdb');
 const ContestType = require('../types/contest');
 
@@ -18,6 +19,5 @@ module.exports = {
     },
     resolve(obj, { input }, { pgPool }) {
         return pgdb(pgPool).addNewContest(input);
-
     }
 }
