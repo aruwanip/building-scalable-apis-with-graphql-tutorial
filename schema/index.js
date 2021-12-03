@@ -1,4 +1,7 @@
 const { GraphQLNonNull, GraphQLObjectType, GraphQLSchema,  GraphQLString } = require('graphql');
+
+const AddContestMutation = require('./mutations/add-contest');
+const AddNameMutation = require('./mutations/add-name');
 const UserType = require('./types/user');
 
 // The root query type is where in the data graph we can start asking questions
@@ -18,13 +21,11 @@ const RootQueryType = new GraphQLObjectType({
     }
 });
 
-const AddContestMutation = require('./mutations/add-contest');
-
 const RootMutationType = new GraphQLObjectType({
     name: 'RootMutationType',
     fields: () => ({
         AddContest: AddContestMutation,
-        // AddName: AddNameMutation
+        AddName: AddNameMutation
     })
 })
 
